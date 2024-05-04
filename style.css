@@ -14,6 +14,10 @@ body {
     font-family: Blippo, fantasy;
 }
 
+#game-container{
+    display:none;
+}
+
 .squares{
     display: grid;
     grid-template-columns: repeat(2, 300px);

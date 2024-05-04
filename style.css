@@ -1,0 +1,48 @@
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f0f0f0;
+}
+/* 
+#webTitle{
+    position: absolute;
+    top: 0%;
+    font-size: 44px;
+    font-family: Blippo, fantasy;
+} */
+
+
+.squares{
+    display: grid;
+    grid-template-columns: repeat(2, 300px);
+}
+
+
+
+.red-square, .blue-square, .yellow-square,.green-square{
+    width: 300px;
+    height: 300px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+
+.red-square {
+    background-color: #ff0000;
+}
+
+.blue-square {
+    background-color: #0000ff;
+}
+
+.yellow-square {
+    background-color: #ffff00;
+}
+
+.green-square {
+    background-color: #00ff00;
+}
+

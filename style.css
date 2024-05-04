@@ -14,13 +14,10 @@ body {
     font-family: Blippo, fantasy;
 }
 
-
 .squares{
     display: grid;
     grid-template-columns: repeat(2, 300px);
 }
-
-
 
 .red-square, .blue-square, .yellow-square,.green-square{
     width: 300px;
@@ -28,7 +25,6 @@ body {
     border-radius: 10px;
     cursor: pointer;
 }
-
 
 .red-square {
     background-color: #ff0000;
@@ -59,4 +55,8 @@ body {
     background-color: #66ff66;
 }
 
-
+.game-buttons{
+    display: flex;
+    justify-content: space-evenly;
+    margin-top: 20px;
+}

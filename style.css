@@ -60,3 +60,22 @@ body {
     justify-content: space-evenly;
     margin-top: 20px;
 }
+
+.game-buttons button{
+    display: flex;
+    justify-content:space-around;
+    margin-top: 20px;
+    border-radius: 5%;
+    color: white;
+    padding: 20px;
+    font-size: 15px;
+    font-weight: bold;
+    font-family: Gill Sans, sans-serif;
+}
+#begin-gameButton{
+    background-color: purple;
+
+}
+#restart-gameButton{
+    background-color: purple;
+}

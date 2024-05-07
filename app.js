@@ -15,3 +15,8 @@ const startGame = () => {
     document.getElementById("game-container").style.display="flex";
 
 }
+
+const beginGame = () => {
+    
+   
+}

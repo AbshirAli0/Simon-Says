@@ -5,6 +5,13 @@ class GameLogic{
         this.timer = 0
         this.timerInterval = null
         this.timerDisplay = null
+        this.level = 0
+    }
+    levelChange(){
+        const level = document.getElementById("level")
+        this.level++
+        level.textContent = this.level
+
     }
     startTimer(){
       this.timerDisplay = document.getElementById("timer")
@@ -12,7 +19,10 @@ class GameLogic{
       this.timerInterval = setInterval(() => {
         this.timer++;
         this.updateTimerDisplay()
-      }, 1000);
+        if (this.timer % 20 === 0){
+            this.levelChange()
+        }
+      }, 100);
     }
     updateTimerDisplay(){
         const minutes = Math.floor(this.timer / 60)
@@ -37,6 +47,7 @@ const startGame = () => {
 const beginGame = () => {
    if(gameLogicInstance){
     gameLogicInstance.startTimer()
+    gameLogicInstance.levelChange()
    } 
 }
 

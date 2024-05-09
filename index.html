@@ -23,23 +23,21 @@
                 <p>Level: 1</p>
               </div>
               <div id="timer-container">
-                <p>Timer: </p>
+                <p id="timer">Timer: </p>
               </div>
         </div>
       <div class="simonSaysArea">
         <div class="squares">
-          <div class="red-square"></div>
-          <div class="blue-square"></div>
-          <div class="yellow-square"></div>
-          <div class="green-square"></div>
+          <div data-color="red-square" class="red-square"></div>
+          <div data-color="blue-square" class="blue-square"></div>
+          <div data-color="yellow-square" class="yellow-square"></div>
+          <div data-color="green-square" class="green-square"></div>
         </div>
         <div class="audio-controls">
           <audio class="red-sound" src="audio/red-audio.wav"></audio>
           <audio class="blue-sound" src="audio/blue-audio.wav"></audio>
           <audio class="yellow-sound" src="audio/yellow-audio.wav"></audio>
           <audio class="green-sound" src="audio/green-audio.wav"></audio>
-          <audio></audio>
-          <audio></audio>
         </div>
         <div class="game-buttons">
           <button id="begin-gameButton" onclick="beginGame()">

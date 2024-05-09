@@ -8,6 +8,7 @@ class GameLogic{
     }
     startTimer(){
       this.timerDisplay = document.getElementById("timer")
+      this.updateTimerDisplay()
       this.timerInterval = setInterval(() => {
         this.timer++;
         this.updateTimerDisplay()
@@ -23,19 +24,20 @@ class GameLogic{
     }
 }
 
-let yourPlayer
+let gameLogicInstance
 
 const startGame = () => {
     const playerName = document.getElementById("name").value
-    yourPlayer = new Player(playerName)
+    gameLogicInstance = new GameLogic(playerName)
     document.getElementById("landingPage-container").style.display = "none";
     document.getElementById("game-container").style.display="flex";
 
 }
 
 const beginGame = () => {
-
-   
+   if(gameLogicInstance){
+    gameLogicInstance.startTimer()
+   } 
 }
 
 //create

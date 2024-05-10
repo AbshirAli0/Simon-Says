@@ -33,11 +33,11 @@ class GameLogic{
     stopTimer(){
         clearInterval(this.timerInterval)
     }
-    // restartGame(){
-    //     this.stopTimer()
-    //     this.level = 0
-    //     this.timer = 0;
-    // }
+    restartGame(){
+        this.stopTimer()
+        this.level = 0
+        this.timer = 0;
+    }
 }
 
 let gameLogicInstance

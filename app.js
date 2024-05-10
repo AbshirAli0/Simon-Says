@@ -15,6 +15,7 @@ class GameLogic{
     }
     startTimer(){
       this.timerDisplay = document.getElementById("timer")
+      this.levelChange()
       this.updateTimerDisplay()
       this.timerInterval = setInterval(() => {
         this.timer++;
@@ -32,6 +33,11 @@ class GameLogic{
     stopTimer(){
         clearInterval(this.timerInterval)
     }
+    // restartGame(){
+    //     this.stopTimer()
+    //     this.level = 0
+    //     this.timer = 0;
+    // }
 }
 
 let gameLogicInstance
@@ -41,14 +47,16 @@ const startGame = () => {
     gameLogicInstance = new GameLogic(playerName)
     document.getElementById("landingPage-container").style.display = "none";
     document.getElementById("game-container").style.display="flex";
+    document.getElementById("timer").style.display="none"
+    document.getElementById("level").style.display="none"
+
 
 }
 
 const beginGame = () => {
-   if(gameLogicInstance){
-    gameLogicInstance.startTimer()
-    gameLogicInstance.levelChange()
-   } 
+    if(gameLogicInstance && gameLogicInstance.level === 0) {
+        gameLogicInstance.startTimer();
+        document.getElementById("timer").style.display="inline"
+        document.getElementById("level").style.display="inline"
+    } 
 }
-
-//create

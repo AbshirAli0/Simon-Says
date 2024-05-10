@@ -20,10 +20,10 @@
     <div id="game-container">
         <div id="stats-container">
             <div id="level-container">
-                <p>Level: <span id="level"></span></p>
+                <p>Level: <span id="level">0</span></p>
               </div>
               <div id="timer-container">
-                <p id="timer">Timer: </p>
+                <p >Timer: <span id="timer">0:00</span></p>
               </div>
         </div>
       <div class="simonSaysArea">
@@ -43,7 +43,7 @@
           <button id="begin-gameButton" onclick="beginGame()">
             BEGIN GAME
           </button>
-          <button id="restart-gameButton" onclick="restartGame()">
+          <button id="restart-gameButton" onclick="gameLogicInstance.restartGame()">
             RESTART
           </button>
         </div>

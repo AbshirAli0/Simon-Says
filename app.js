@@ -8,9 +8,9 @@ class GameLogic{
         this.level = 0
     }
     levelChange(){
-        const level = document.getElementById("level")
         this.level++
-        level.textContent = this.level
+        const levelElement = document.getElementById("level")
+        levelElement.textContent = this.level
 
     }
     startTimer(){
@@ -35,8 +35,11 @@ class GameLogic{
     }
     restartGame(){
         this.stopTimer()
-        this.level = 0
-        this.timer = 0;
+        const levelElement = document.getElementById("level")
+        levelElement.textContent = 0 
+        this.level = 0    
+        this.timer = 0 
+        this.timerDisplay.textContent = "0:00";
     }
 }
 

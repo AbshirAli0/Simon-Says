@@ -8,9 +8,9 @@
     <script src="app.js"></script>
   </head>
   <body>
-    <h1 id="webTitle">Simon Says!</h1>
     <div id="landingPage-container">
       <div id="landingPage">
+        <h1 id="webTitle">Simon Says!</h1>
         <h1>Welcome to My Simon Says GAME !!!</h1>
         <p>Please Enter Your Name Below:</p>
         <input type="text" id="name" placeholder="Enter Your Name" />
@@ -18,34 +18,43 @@
       </div>
     </div>
     <div id="game-container">
-        <div id="stats-container">
-            <div id="level-container">
-                <p>Level: <span id="level">0</span></p>
-              </div>
-              <div id="timer-container">
-                <p >Timer: <span id="timer">0:00</span></p>
-              </div>
-        </div>
       <div class="simonSaysArea">
-        <div class="squares">
-          <div data-color="red-square" class="red-square"></div>
-          <div data-color="blue-square" class="blue-square"></div>
-          <div data-color="yellow-square" class="yellow-square"></div>
-          <div data-color="green-square" class="green-square"></div>
+        <div id="stats-container">
+          <div id="level-container">
+            <p>Level: <span id="level">0</span></p>
+          </div>
+          <div id="timer-container">
+            <p>Timer: <span id="timer">0:00</span></p>
+          </div>
         </div>
-        <div class="audio-controls">
-          <audio class="red-sound" src="audio/red-audio.wav"></audio>
-          <audio class="blue-sound" src="audio/blue-audio.wav"></audio>
-          <audio class="yellow-sound" src="audio/yellow-audio.wav"></audio>
-          <audio class="green-sound" src="audio/green-audio.wav"></audio>
-        </div>
-        <div class="game-buttons">
-          <button id="begin-gameButton" onclick="beginGame()">
-            BEGIN GAME
-          </button>
-          <button id="restart-gameButton" onclick="gameLogicInstance.restartGame()">
-            RESTART
-          </button>
+
+        <div id="squareArea">
+          <h1 id="webTitle">Simon Says!</h1>
+
+          <div class="squares">
+
+            <div data-color="red-square" class="red-square"></div>
+            <div data-color="blue-square" class="blue-square"></div>
+            <div data-color="yellow-square" class="yellow-square"></div>
+            <div data-color="green-square" class="green-square"></div>
+          </div>
+          <div class="audio-controls">
+            <audio class="red-sound" src="audio/red-audio.wav"></audio>
+            <audio class="blue-sound" src="audio/blue-audio.wav"></audio>
+            <audio class="yellow-sound" src="audio/yellow-audio.wav"></audio>
+            <audio class="green-sound" src="audio/green-audio.wav"></audio>
+          </div>
+          <div class="game-buttons">
+            <button id="begin-gameButton" onclick="beginGame()">
+              BEGIN GAME
+            </button>
+            <button
+              id="restart-gameButton"
+              onclick="gameLogicInstance.restartGame()"
+            >
+              RESTART
+            </button>
+          </div>
         </div>
       </div>
     </div>

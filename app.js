@@ -8,7 +8,7 @@ class GameLogic {
     this.timerDisplay = null;
     this.level = 0;
     this.cpuPickedPerTurn = 1;
-    this.patterMemory = [];
+    this.patternMemory = [];
     this.userFeedback = [];
     this.colors = ["blue", "yellow", "red", "green"];
   }
@@ -18,19 +18,16 @@ class GameLogic {
     const levelElement = document.getElementById("level");
     levelElement.textContent = this.level;
     if (this.level % 3 === 0) {
-      this.cpuPickedPerTurn += 2;
+      this.cpuPickedPerTurn += 1;
+      console.log("cpuPickedPerTurn has been updated");
     }
   }
   startTimer() {
     this.timerDisplay = document.getElementById("timer");
-    this.levelChange();
     this.updateTimerDisplay();
     this.timerInterval = setInterval(() => {
       this.timer++;
       this.updateTimerDisplay();
-      if (this.timer % 20 === 0) {
-        this.levelChange();
-      }
     }, 100);
   }
   updateTimerDisplay() {
@@ -44,11 +41,11 @@ class GameLogic {
     clearInterval(this.timerInterval);
   }
   colorPicker() {
-    Math.floor(Math.random() * this.colors.length);
+    return Math.floor(Math.random() * this.colors.length);
   }
-  arraysMatch(patterMemory, userFeedback) {
-    for (let i = 0; i < patterMemory.length; i++) {
-      if (patterMemory[i] !== userFeedback[i]) {
+  arraysMatch(patternMemory, userFeedback) {
+    for (let i = 0; i < patternMemory.length; i++) {
+      if (patternMemory[i] !== userFeedback[i]) {
         return false;
       }
     }
@@ -62,11 +59,11 @@ class GameLogic {
     this.timer = 0;
     this.timerDisplay.textContent = "0:00";
   }
-  cpuTurn() {
-    //if arraysMatch(patterMemory,userFeedback) === false, end game
-    console.log("Here")
-    for (let idx = 0; idx < this.patterMemory.length; idx++) {
-      const colorInMemory = this.patterMemory[idx];
+  async cpuTurn() {
+    //if arraysMatch(patternMemory,userFeedback) === false, end game
+    //CREATE ENDGAME LOGIC^
+    for (let idx = 0; idx < this.patternMemory.length; idx++) {
+      const colorInMemory = this.patternMemory[idx];
 
       setTimeout(() => {
         const gameSquareElement = document.querySelector(
@@ -77,72 +74,106 @@ class GameLogic {
 
         //beep sound play here
 
-        //add opacity to sqare that is lit up
-      }, idx * 5000);
+      }, 2000);
     }
-    console.log("out")
 
-    // // cpu picks new item based on this.cpuPickedPerTurn
-    // cpuAddNewItems(){
-    /* 
-          const newPatternItems = Array.from(Array(this.cpuPickedPerTurn).keys())
-          
-  
-          for loop for this newPatternItems {
-              const randomColorIndex = colorPicker()
-              const randomColor = colors[randomColorIndex]
-  
-              patternMemory.push(randomColor)
-  
-          }
-          */
-    // }
-    this.turn = "player";
-    // prompt user to select square
-    /// create a function: playerPrompt(), which will provide a text that explains whos turn it is. default is cpu turn.
+    await this.cpuAddNewItems().then(() => {
+      this.turn = "player";
+      this.levelChange();
+      // CLEAR ALL OPACITY ON SQUARES, THIS SHOULD HAPPEN WHEN WE SWITCH TO PLAYER TURN SO THAT ALL SQUARES LOOK SAME AS ORIGINAL
+      console.log(
+        "CPU turn finished",
+        this.patternMemory,
+        this.userFeedback,
+        this.level
+      );
+
+      // prompt user to select square
+      /// create a function: playerPrompt(), which will provide a text that explains whos turn it is. default is cpu turn.
+    });
   }
-  playerTurn() {
-    if (this.turn === "player") {
-      const squares = document.querySelectorAll(".squares div");
+  async cpuAddNewItems() {
+    const newPatternItems = Array.from(Array(this.cpuPickedPerTurn).keys());
 
-      squares.forEach((square) => {
-        square.addEventListener("click", function () {
-          const color = square.getAttribute("data-color");
-          this.userFeedback.push(color);
-        });
+    for (let i = 0; i < newPatternItems.length; i++) {
+      const randomColorIndex = this.colorPicker();
+      const randomColor = this.colors[randomColorIndex];
+      this.patternMemory.push(randomColor);
+      let gameSquareElement = document.querySelector(
+        `[data-color="${randomColor}"]`
+      );
+
+      await new Promise((resolve) => {
+        setTimeout(() => {
+          gameSquareElement.style.opacity = 0.5;
+          //beep sound play here
+          //add opacity to square that is lit up
+          //
+          setTimeout(() => {
+            gameSquareElement.removeAttribute("style");
+            resolve(); //EXITS PROMISE
+          }, 2000);
+        }, 2000);
       });
-      if (this.patterMemory.length === this.userFeedback.length) {
-        this.turn = "cpu";
+    }
+  }
+// HERE, CREATE A FUNCTION TO MAKE A BEEP SOUND, AND THEN CALL THAT IN AWAIT PROMISE FUNCTION
+  playerTurn(square) {
+    if (this.turn === "player") {
+      const color = square.getAttribute("data-color");
+      this.userFeedback.push(color);
 
+      console.log(
+        "PLAYER clicked =>",
+        this.patternMemory,
+        this.userFeedback,
+        this.level
+      );
+
+      if (this.patternMemory.length === this.userFeedback.length) {
+        this.turn = "cpu";
+        console.log(
+          "END OF PLAYER TURN",
+          this.patternMemory,
+          this.userFeedback,
+          this.level
+        );
+        this.userFeedback = [];
         this.cpuTurn();
       }
     }
   }
 }
 
-let gameLogicInstance
+let gameLogicInstance;
 
 const startGame = () => {
-    const playerName = document.getElementById("name").value
-    gameLogicInstance = new GameLogic(playerName)
-    document.getElementById("landingPage-container").style.display = "none";
-    document.getElementById("game-container").style.display="flex";
-    document.getElementById("timer").style.display="none"
-    document.getElementById("level").style.display="none"
+  const playerName = document.getElementById("name").value;
+  gameLogicInstance = new GameLogic(playerName);
+  document.getElementById("landingPage-container").style.display = "none";
+  document.getElementById("game-container").style.display = "flex";
+  document.getElementById("timer").style.display = "none";
+  document.getElementById("level").style.display = "none";
+};
 
-
-}
+document.addEventListener("DOMContentLoaded", () => {
+  const squares = document.querySelectorAll(".squares div");
+  squares.forEach((square) => {
+    square.addEventListener("click", () => {
+      gameLogicInstance.playerTurn(square); // Pass the square element
+    });
+  });
+});
 
 const beginGame = () => {
-    if(gameLogicInstance && gameLogicInstance.level === 0) {
-        gameLogicInstance.startTimer()
-        gameLogicInstance.turn = "cpu"
+  if (gameLogicInstance && gameLogicInstance.level === 0) {
+    gameLogicInstance.startTimer();
+    gameLogicInstance.turn = "cpu";
 
-        document.getElementById("timer").style.display="inline"
-        document.getElementById("level").style.display="inline"
-        gameLogicInstance.cpuTurn()
-    } 
-}
-
+    document.getElementById("timer").style.display = "inline";
+    document.getElementById("level").style.display = "inline";
+    gameLogicInstance.cpuTurn();
+  }
+};
 
 // have an event listener that listens for an onClick

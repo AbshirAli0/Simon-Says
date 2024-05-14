@@ -17,10 +17,7 @@ class GameLogic {
     this.level++;
     const levelElement = document.getElementById("level");
     levelElement.textContent = this.level;
-    if (this.level % 1 === 0) {
-      this.cpuPickedPerTurn += 1;
-      console.log("cpuPickedPerTurn has been updated");
-    }
+      console.log("Level Has Been Updated");
   }
   startTimer() {
     this.timerDisplay = document.getElementById("timer");
@@ -82,26 +79,25 @@ class GameLogic {
   async cpuTurn() {
     //if arraysMatch(patternMemory,userFeedback) === false, end game
     //CREATE ENDGAME LOGIC^
-    this.patternMemory = []
     this.removeHoverEffect();
+    this.clearSquareStyles()
 
     for (let idx = 0; idx < this.patternMemory.length; idx++) {
       const colorInMemory = this.patternMemory[idx];
 
-      setTimeout(() => {
-        const gameSquareElement = document.querySelector(
-          `[data-color="${colorInMemory}"]`
-        );
-
-        gameSquareElement.style.opacity = 0.5;
-
-        //beep sound play here
-
-      }, 2000);
+      await new Promise((resolve) => {
+        setTimeout(() => {
+          const gameSquareElement = document.querySelector(`[data-color="${colorInMemory}"]`);
+          gameSquareElement.style.opacity = 0.2
+          setTimeout(() => {
+            gameSquareElement.style.opacity = 1
+            resolve()
+        }, 800)
+          //beep sound play here
+        }, 800);
+        
+      })
     }
-    
-    this.patternMemory = []
-
     await this.cpuAddNewItems().then(() => {
       this.turn = "player";
       this.levelChange();
@@ -120,15 +116,12 @@ class GameLogic {
     });
   }
   async cpuAddNewItems() {
-    const newPatternItems = Array.from(Array(this.cpuPickedPerTurn).keys());
 
-    for (let i = 0; i < newPatternItems.length; i++) {
-      const randomColorIndex = this.colorPicker();
-      const randomColor = this.colors[randomColorIndex];
-      this.patternMemory.push(randomColor);
-      let gameSquareElement = document.querySelector(
-        `[data-color="${randomColor}"]`
-      );
+    const randomColorIndex = this.colorPicker();
+    const randomColor = this.colors[randomColorIndex];
+    this.patternMemory.push(randomColor);
+
+    let gameSquareElement = document.querySelector(`[data-color="${randomColor}"]`);
 
       await new Promise((resolve) => {
         setTimeout(() => {
@@ -139,10 +132,9 @@ class GameLogic {
           setTimeout(() => {
             gameSquareElement.removeAttribute("style");
             resolve(); //EXITS PROMISE
-          }, 2000);
-        }, 2000);
+          }, 800);
+        }, 800);
       });
-    }
   }
 // HERE, CREATE A FUNCTION TO MAKE A BEEP SOUND, AND THEN CALL THAT IN AWAIT PROMISE FUNCTION
   playerTurn(square) {

@@ -59,6 +59,12 @@ class GameLogic {
     this.timer = 0;
     this.timerDisplay.textContent = "0:00";
   }
+  clearSquareStyles() {
+    const squares = document.querySelectorAll(".squares div");
+    squares.forEach((square) => {
+      square.style.opacity = 1;
+    });
+  }
   async cpuTurn() {
     //if arraysMatch(patternMemory,userFeedback) === false, end game
     //CREATE ENDGAME LOGIC^
@@ -76,11 +82,13 @@ class GameLogic {
 
       }, 2000);
     }
+    
 
     await this.cpuAddNewItems().then(() => {
       this.turn = "player";
       this.levelChange();
-      // CLEAR ALL OPACITY ON SQUARES, THIS SHOULD HAPPEN WHEN WE SWITCH TO PLAYER TURN SO THAT ALL SQUARES LOOK SAME AS ORIGINAL
+      this.clearSquareStyles()
+      // CLEAR ALL OPACITY ON SQUARES, THIS SHOULD HAPPEN WHEN WE SWITCH TO PLAYER TURN SO THAT ALL SQUARES LOOK SAME AS ORIGINAL (DONE)
       console.log(
         "CPU turn finished",
         this.patternMemory,
@@ -105,7 +113,7 @@ class GameLogic {
 
       await new Promise((resolve) => {
         setTimeout(() => {
-          gameSquareElement.style.opacity = 0.5;
+          gameSquareElement.style.opacity = 0.3;
           //beep sound play here
           //add opacity to square that is lit up
           //

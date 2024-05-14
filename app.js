@@ -17,7 +17,7 @@ class GameLogic {
     this.level++;
     const levelElement = document.getElementById("level");
     levelElement.textContent = this.level;
-    if (this.level % 3 === 0) {
+    if (this.level % 1 === 0) {
       this.cpuPickedPerTurn += 1;
       console.log("cpuPickedPerTurn has been updated");
     }
@@ -65,9 +65,26 @@ class GameLogic {
       square.style.opacity = 1;
     });
   }
+  addHoverEffect() {
+    const squares = document.querySelectorAll(".squares div");
+    squares.forEach((square) => {
+      square.classList.add("squares-hover");
+      console.log("I Worked too")
+    });
+  }
+  removeHoverEffect() {
+    const squares = document.querySelectorAll(".squares div");
+    squares.forEach((square) => {
+      square.classList.remove("squares-hover");
+      console.log("I Worked ")
+    });
+  }
   async cpuTurn() {
     //if arraysMatch(patternMemory,userFeedback) === false, end game
     //CREATE ENDGAME LOGIC^
+    this.patternMemory = []
+    this.removeHoverEffect();
+
     for (let idx = 0; idx < this.patternMemory.length; idx++) {
       const colorInMemory = this.patternMemory[idx];
 
@@ -83,12 +100,14 @@ class GameLogic {
       }, 2000);
     }
     
+    this.patternMemory = []
 
     await this.cpuAddNewItems().then(() => {
       this.turn = "player";
       this.levelChange();
       this.clearSquareStyles()
-      // CLEAR ALL OPACITY ON SQUARES, THIS SHOULD HAPPEN WHEN WE SWITCH TO PLAYER TURN SO THAT ALL SQUARES LOOK SAME AS ORIGINAL (DONE)
+      // (DONE) CLEAR ALL OPACITY ON SQUARES, THIS SHOULD HAPPEN WHEN WE SWITCH TO PLAYER TURN SO THAT ALL SQUARES LOOK SAME AS ORIGINAL
+      this.addHoverEffect();
       console.log(
         "CPU turn finished",
         this.patternMemory,
@@ -130,7 +149,6 @@ class GameLogic {
     if (this.turn === "player") {
       const color = square.getAttribute("data-color");
       this.userFeedback.push(color);
-
       console.log(
         "PLAYER clicked =>",
         this.patternMemory,

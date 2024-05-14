@@ -50,13 +50,9 @@ body {
   width: 50%;
 }
 
-.red-square,
-.blue-square,
-.yellow-square,
-.green-square {
+.squares div {
   width: 250px;
   height: 250px;
-  /* border-radius: 10px; */
   cursor: pointer;
 }
 
@@ -64,17 +60,11 @@ body {
   background-color: #ff0000;
   border-top-left-radius: 5%;
 }
-.red-square:hover {
-  background-color: #ff6666;
-}
 
 .blue-square {
   background-color: #0000ff;
   border-top-right-radius: 5%;
 
-}
-.blue-square:hover {
-  background-color: #6699ff;
 }
 
 .yellow-square {
@@ -83,17 +73,15 @@ body {
 
 }
 
-.yellow-square:hover {
-  background-color: #fffa66;
-}
-
 .green-square {
   background-color: #00ff00;
   border-bottom-right-radius: 5%;
 }
-.green-square:hover {
-  background-color: #66ff66;
+
+.squares-hover:hover {
+  opacity: 0.6 !important;
 }
+
 
 #level-container, #timer-container{
     border: 6px solid;

@@ -10,11 +10,9 @@ body {
 }
 
 #webTitle {
-  text-align: absolute;
-  margin-top: 20px;
   font-size: 44px;
   font-family: Blippo, fantasy;
-  margin-bottom: 0;
+  margin-bottom: 20px;
 }
 #landingPage-container {
   background-color: black;

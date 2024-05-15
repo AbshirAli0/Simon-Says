@@ -111,7 +111,7 @@ class GameLogic {
           setTimeout(() => {
             gameSquareElement.style.opacity = 1;
             resolve();
-          }, 500);
+          }, 800);
           //beep sound play here
           this.playSound(`${colorInMemory}-sound`);
         }, 500);
@@ -145,7 +145,7 @@ class GameLogic {
         setTimeout(() => {
           gameSquareElement.removeAttribute("style");
           resolve();
-        }, 500);
+        }, 800);
       }, 500);
     });
   }

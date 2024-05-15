@@ -2,46 +2,36 @@ class GameLogic {
   constructor(name) {
     this.turn = "cpu";
     this.name = name;
-    this.isAlive = true;
     this.timer = 0;
     this.timerInterval = null;
     this.timerDisplay = null;
     this.level = 0;
-    this.cpuPickedPerTurn = 1;
     this.patternMemory = [];
     this.userFeedback = [];
     this.colors = ["blue", "yellow", "red", "green"];
-    
-    this.playerPrompt = document.getElementById("playerPrompt")
+    this.playerPrompt = document.getElementById("playerPrompt");
     this.updatePlayerPrompt = (turn) => {
-      if (turn === "cpu"){
-        this.playerPrompt.textContent = "CPU's Turn"
+      if (turn === "cpu") {
+        this.playerPrompt.textContent = "CPU's Turn";
         this.playerPrompt.style.fontStyle = "italic";
-      } else if (turn === "player"){
-        this.playerPrompt.textContent = "Player's Turn"
+      } else if (turn === "player") {
+        this.playerPrompt.textContent = "Player's Turn";
         this.playerPrompt.style.fontStyle = "italic";
-
-      }else {
-        this.playerPrompt.textContent = "GAME OVER"
+      } else if (turn !== "cpu" && turn !== "player") {
+        this.playerPrompt.textContent = "GAME OVER";
         this.playerPrompt.style.fontStyle = "normal";
-        this.playerPrompt.style.color = "red";
-
-
       }
-    }
-
+    };
   }
-
-  playSound(sound){
+  playSound(sound) {
     let beepSound = document.getElementById(sound);
     beepSound.play();
   }
-
   levelChange() {
     this.level++;
     const levelElement = document.getElementById("level");
     levelElement.textContent = this.level;
-      console.log("Level Has Been Updated");
+    console.log("Level Has Been Updated");
   }
   startTimer() {
     this.timerDisplay = document.getElementById("timer");
@@ -49,7 +39,7 @@ class GameLogic {
     this.timerInterval = setInterval(() => {
       this.timer++;
       this.updateTimerDisplay();
-    }, 100);
+    }, 1000);
   }
   updateTimerDisplay() {
     const minutes = Math.floor(this.timer / 60);
@@ -64,14 +54,6 @@ class GameLogic {
   colorPicker() {
     return Math.floor(Math.random() * this.colors.length);
   }
-  arraysMatch(patternMemory, userFeedback) {
-    for (let i = 0; i < patternMemory.length; i++) {
-      if (patternMemory[i] !== userFeedback[i]) {
-        return false;
-      }
-    }
-    return true;
-  }
   restartGame() {
     this.stopTimer();
     const levelElement = document.getElementById("level");
@@ -82,14 +64,13 @@ class GameLogic {
     this.userFeedback = [];
     this.timerDisplay.textContent = "0:00";
     this.turn = "cpu";
-
   }
-  endGame(){
-    this.turn = null
-    this.updatePlayerPrompt()
-    this.resetGame()
+  endGame() {
+    this.turn = null;
+    this.updatePlayerPrompt();
+    this.resetGame();
   }
-  resetGame(){
+  resetGame() {
     this.stopTimer();
     this.patternMemory = [];
     this.userFeedback = [];
@@ -105,46 +86,42 @@ class GameLogic {
     const squares = document.querySelectorAll(".squares div");
     squares.forEach((square) => {
       square.classList.add("squares-hover");
-      console.log("I Worked too")
+      console.log("I Worked too");
     });
   }
   removeHoverEffect() {
     const squares = document.querySelectorAll(".squares div");
     squares.forEach((square) => {
       square.classList.remove("squares-hover");
-      console.log("I Worked ")
+      console.log("I Worked ");
     });
   }
   async cpuTurn() {
-    //if arraysMatch(patternMemory,userFeedback) === false, end game
-    //CREATE ENDGAME LOGIC^
-    this.updatePlayerPrompt('cpu')
+    this.updatePlayerPrompt("cpu");
     this.removeHoverEffect();
-    this.clearSquareStyles()
-
+    this.clearSquareStyles();
     for (let idx = 0; idx < this.patternMemory.length; idx++) {
       const colorInMemory = this.patternMemory[idx];
-
       await new Promise((resolve) => {
         setTimeout(() => {
-          const gameSquareElement = document.querySelector(`[data-color="${colorInMemory}"]`);
-          gameSquareElement.style.opacity = 0.2
+          const gameSquareElement = document.querySelector(
+            `[data-color="${colorInMemory}"]`
+          );
+          gameSquareElement.style.opacity = 0.2;
           setTimeout(() => {
-            gameSquareElement.style.opacity = 1
-            resolve()
-        }, 800)
+            gameSquareElement.style.opacity = 1;
+            resolve();
+          }, 500);
           //beep sound play here
-          this.playSound(`${colorInMemory}-sound`)
-        }, 800);
-        
-      })
+          this.playSound(`${colorInMemory}-sound`);
+        }, 500);
+      });
     }
     await this.cpuAddNewItems().then(() => {
       this.turn = "player";
-      this.updatePlayerPrompt('player')
+      this.updatePlayerPrompt("player");
       this.levelChange();
-      this.clearSquareStyles()
-      // (DONE) CLEAR ALL OPACITY ON SQUARES, THIS SHOULD HAPPEN WHEN WE SWITCH TO PLAYER TURN SO THAT ALL SQUARES LOOK SAME AS ORIGINAL
+      this.clearSquareStyles();
       this.addHoverEffect();
       console.log(
         "CPU turn finished",
@@ -152,48 +129,39 @@ class GameLogic {
         this.userFeedback,
         this.level
       );
-
-      // prompt user to select square
-      /// create a function: playerPrompt(), which will provide a text that explains whos turn it is. default is cpu turn.
     });
   }
   async cpuAddNewItems() {
-
     const randomColorIndex = this.colorPicker();
     const randomColor = this.colors[randomColorIndex];
     this.patternMemory.push(randomColor);
-
-    let gameSquareElement = document.querySelector(`[data-color="${randomColor}"]`);
-
-      await new Promise((resolve) => {
+    let gameSquareElement = document.querySelector(
+      `[data-color="${randomColor}"]`
+    );
+    await new Promise((resolve) => {
+      setTimeout(() => {
+        gameSquareElement.style.opacity = 0.2;
+        this.playSound(`${randomColor}-sound`);
         setTimeout(() => {
-          gameSquareElement.style.opacity = 0.2;
-          this.playSound(`${randomColor}-sound`)
-
-          //beep sound play here
-          //add opacity to square that is lit up
-          //
-          setTimeout(() => {
-            gameSquareElement.removeAttribute("style");
-            resolve(); //EXITS PROMISE
-          }, 800);
-        }, 800);
-      });
+          gameSquareElement.removeAttribute("style");
+          resolve();
+        }, 500);
+      }, 500);
+    });
   }
-// HERE, CREATE A FUNCTION TO MAKE A BEEP SOUND, AND THEN CALL THAT IN AWAIT PROMISE FUNCTION
   playerTurn(square) {
     if (this.turn === "player") {
       const color = square.getAttribute("data-color");
       this.userFeedback.push(color);
-      this.playSound(`${color}-sound`)
-
-      
-
-      const currentMoveIndex = this.userFeedback.length - 1
-      if(this.userFeedback[currentMoveIndex]  !== this.patternMemory[currentMoveIndex]) {
-        this.endGame()
-        return
-      } 
+      this.playSound(`${color}-sound`);
+      const currentMoveIndex = this.userFeedback.length - 1;
+      if (
+        this.userFeedback[currentMoveIndex] !==
+        this.patternMemory[currentMoveIndex]
+      ) {
+        this.endGame();
+        return;
+      }
       console.log(
         "PLAYER clicked =>",
         this.patternMemory,
@@ -215,9 +183,7 @@ class GameLogic {
     }
   }
 }
-
 let gameLogicInstance;
-
 const startGame = () => {
   const playerName = document.getElementById("name").value;
   gameLogicInstance = new GameLogic(playerName);
@@ -226,7 +192,6 @@ const startGame = () => {
   document.getElementById("timer").style.display = "none";
   document.getElementById("level").style.display = "none";
 };
-
 document.addEventListener("DOMContentLoaded", () => {
   const squares = document.querySelectorAll(".squares div");
   squares.forEach((square) => {
@@ -235,21 +200,16 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 });
-
 const beginGame = () => {
   if (gameLogicInstance && gameLogicInstance.level === 0) {
-    gameLogicInstance.timer = 0
-    gameLogicInstance.level = 0
+    gameLogicInstance.timer = 0;
+    gameLogicInstance.level = 0;
     const levelElement = document.getElementById("level");
-    levelElement.textContent = 0
-
+    levelElement.textContent = 0;
     gameLogicInstance.startTimer();
     gameLogicInstance.turn = "cpu";
-
     document.getElementById("timer").style.display = "inline";
     document.getElementById("level").style.display = "inline";
     gameLogicInstance.cpuTurn();
   }
 };
-
-// have an event listener that listens for an onClick

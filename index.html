@@ -32,17 +32,32 @@
           <h1 id="webTitle">Simon Says!</h1>
 
           <div class="squares">
-
-            <div data-color="red" class="red-square squares-hover"  ></div>
-            <div data-color="blue" class="blue-square squares-hover"  ></div>
-            <div data-color="yellow" class="yellow-square squares-hover"  ></div>
-            <div data-color="green" class="green-square squares-hover"  ></div>
+            <div data-color="red" class="red-square squares-hover"></div>
+            <div data-color="blue" class="blue-square squares-hover"></div>
+            <div data-color="yellow" class="yellow-square squares-hover"></div>
+            <div data-color="green" class="green-square squares-hover"></div>
           </div>
           <div class="audio-controls">
-            <audio id="red-sound" src="audio/red-audio.wav"  preload="auto"></audio>
-            <audio id="blue-sound" src="audio/blue-audio.wav" preload="auto"></audio>
-            <audio id="yellow-sound" src="audio/yellow-audio.wav" preload="auto"></audio>
-            <audio id="green-sound" src="audio/green-audio.wav" preload="auto"></audio>
+            <audio
+              id="red-sound"
+              src="audio/red-audio.wav"
+              preload="auto"
+            ></audio>
+            <audio
+              id="blue-sound"
+              src="audio/blue-audio.wav"
+              preload="auto"
+            ></audio>
+            <audio
+              id="yellow-sound"
+              src="audio/yellow-audio.wav"
+              preload="auto"
+            ></audio>
+            <audio
+              id="green-sound"
+              src="audio/green-audio.wav"
+              preload="auto"
+            ></audio>
           </div>
           <div class="game-buttons">
             <button id="begin-gameButton" onclick="beginGame()">
@@ -50,7 +65,7 @@
             </button>
 
             <p id="level-container">Level: <span id="level">0</span></p>
-            <P id="playerPrompt"></P>
+            <p id="playerPrompt"></p>
             <p id="timer-container">Timer: <span id="timer">0:00</span></p>
 
             <button

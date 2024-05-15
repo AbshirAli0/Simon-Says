@@ -11,6 +11,7 @@ class GameLogic {
     this.colors = ["blue", "yellow", "red", "green"];
     this.playerPrompt = document.getElementById("playerPrompt");
     this.updatePlayerPrompt = (turn) => {
+      this.playerPrompt.style.color="black"
       if (turn === "cpu") {
         this.playerPrompt.textContent = "CPU's Turn";
         this.playerPrompt.style.fontStyle = "italic";
@@ -63,6 +64,7 @@ class GameLogic {
     this.patternMemory = [];
     this.userFeedback = [];
     this.timerDisplay.textContent = "0:00";
+    this.updatePlayerPrompt()
     this.turn = "cpu";
   }
   endGame() {

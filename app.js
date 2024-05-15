@@ -6,12 +6,30 @@ class GameLogic {
     this.timer = 0;
     this.timerInterval = null;
     this.timerDisplay = null;
-    this.playerPrompt = null
     this.level = 0;
     this.cpuPickedPerTurn = 1;
     this.patternMemory = [];
     this.userFeedback = [];
     this.colors = ["blue", "yellow", "red", "green"];
+    
+    this.playerPrompt = document.getElementById("playerPrompt")
+    this.updatePlayerPrompt = (turn) => {
+      if (turn === "cpu"){
+        this.playerPrompt.textContent = "CPU's Turn"
+        this.playerPrompt.style.fontStyle = "italic";
+      } else if (turn === "player"){
+        this.playerPrompt.textContent = "Player's Turn"
+        this.playerPrompt.style.fontStyle = "italic";
+
+      }else {
+        this.playerPrompt.textContent = "GAME OVER"
+        this.playerPrompt.style.fontStyle = "normal";
+        this.playerPrompt.style.color = "red";
+
+
+      }
+    }
+
   }
 
   playSound(sound){
@@ -66,6 +84,17 @@ class GameLogic {
     this.turn = "cpu";
 
   }
+  endGame(){
+    this.turn = null
+    this.updatePlayerPrompt()
+    this.resetGame()
+  }
+  resetGame(){
+    this.stopTimer();
+    this.patternMemory = [];
+    this.userFeedback = [];
+    this.level = 0;
+  }
   clearSquareStyles() {
     const squares = document.querySelectorAll(".squares div");
     squares.forEach((square) => {
@@ -86,20 +115,10 @@ class GameLogic {
       console.log("I Worked ")
     });
   }
-  endGame(){
-    this.turn = null
-    this.resetGame()
-  }
-  resetGame(){
-    this.stopTimer();
-    this.patternMemory = [];
-    this.userFeedback = [];
-    this.level = 0;
-  }
-
   async cpuTurn() {
     //if arraysMatch(patternMemory,userFeedback) === false, end game
     //CREATE ENDGAME LOGIC^
+    this.updatePlayerPrompt('cpu')
     this.removeHoverEffect();
     this.clearSquareStyles()
 
@@ -122,6 +141,7 @@ class GameLogic {
     }
     await this.cpuAddNewItems().then(() => {
       this.turn = "player";
+      this.updatePlayerPrompt('player')
       this.levelChange();
       this.clearSquareStyles()
       // (DONE) CLEAR ALL OPACITY ON SQUARES, THIS SHOULD HAPPEN WHEN WE SWITCH TO PLAYER TURN SO THAT ALL SQUARES LOOK SAME AS ORIGINAL

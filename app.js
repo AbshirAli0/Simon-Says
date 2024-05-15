@@ -13,6 +13,11 @@ class GameLogic {
     this.colors = ["blue", "yellow", "red", "green"];
   }
 
+  playSound(sound){
+    let beepSound = document.getElementById(sound);
+    beepSound.play();
+  }
+
   levelChange() {
     this.level++;
     const levelElement = document.getElementById("level");
@@ -109,6 +114,7 @@ class GameLogic {
             resolve()
         }, 800)
           //beep sound play here
+          this.playSound(`${colorInMemory}-sound`)
         }, 800);
         
       })
@@ -141,6 +147,8 @@ class GameLogic {
       await new Promise((resolve) => {
         setTimeout(() => {
           gameSquareElement.style.opacity = 0.2;
+          this.playSound(`${randomColor}-sound`)
+
           //beep sound play here
           //add opacity to square that is lit up
           //
@@ -156,6 +164,9 @@ class GameLogic {
     if (this.turn === "player") {
       const color = square.getAttribute("data-color");
       this.userFeedback.push(color);
+      this.playSound(`${color}-sound`)
+
+      
 
       const currentMoveIndex = this.userFeedback.length - 1
       if(this.userFeedback[currentMoveIndex]  !== this.patternMemory[currentMoveIndex]) {
@@ -210,7 +221,7 @@ const beginGame = () => {
     gameLogicInstance.level = 0
     const levelElement = document.getElementById("level");
     levelElement.textContent = 0
-    
+
     gameLogicInstance.startTimer();
     gameLogicInstance.turn = "cpu";
 

@@ -82,8 +82,15 @@ class GameLogic {
   }
   endGame(){
     this.turn = null
-    this.restartGame()
+    this.resetGame()
   }
+  resetGame(){
+    this.stopTimer();
+    this.patternMemory = [];
+    this.userFeedback = [];
+    this.level = 0;
+  }
+
   async cpuTurn() {
     //if arraysMatch(patternMemory,userFeedback) === false, end game
     //CREATE ENDGAME LOGIC^
@@ -149,6 +156,12 @@ class GameLogic {
     if (this.turn === "player") {
       const color = square.getAttribute("data-color");
       this.userFeedback.push(color);
+
+      const currentMoveIndex = this.userFeedback.length - 1
+      if(this.userFeedback[currentMoveIndex]  !== this.patternMemory[currentMoveIndex]) {
+        this.endGame()
+        return
+      } 
       console.log(
         "PLAYER clicked =>",
         this.patternMemory,
@@ -193,6 +206,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
 const beginGame = () => {
   if (gameLogicInstance && gameLogicInstance.level === 0) {
+    gameLogicInstance.timer = 0
+    gameLogicInstance.level = 0
+    const levelElement = document.getElementById("level");
+    levelElement.textContent = 0
+    
     gameLogicInstance.startTimer();
     gameLogicInstance.turn = "cpu";
 

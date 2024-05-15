@@ -84,9 +84,9 @@ body {
 
 
 #level-container, #timer-container{
-    border: 6px solid;
-     height: 150px; 
-     width: 120px; 
+    /* border: 2px solid; */
+     height: 10px; 
+     width: 10px; 
     display: flex;
     justify-content: center;
     flex-direction: row;
@@ -96,8 +96,6 @@ body {
     font-family: "Gill Sans", sans-serif;
     font-weight: bold;
     /* border-bottom: 0; */
-    padding: 20px;
-    left: 50px;  
 }
 
 
@@ -149,4 +147,22 @@ body {
     align-items: center;
     justify-content: center;
 
+}
+
+
+@media screen and (max-width: 1100px) {
+  .squares div {
+    width: 180px;
+    height: 180px;
+    cursor: pointer;
+  }
+  
+}
+@media screen and (max-width: 700px) {
+  .squares div {
+    width: 120px;
+    height: 120px;
+    cursor: pointer;
+  }
+  
 }

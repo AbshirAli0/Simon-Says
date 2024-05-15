@@ -6,6 +6,7 @@ class GameLogic {
     this.timer = 0;
     this.timerInterval = null;
     this.timerDisplay = null;
+    this.playerPrompt = null
     this.level = 0;
     this.cpuPickedPerTurn = 1;
     this.patternMemory = [];

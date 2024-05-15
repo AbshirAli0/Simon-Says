@@ -54,7 +54,11 @@ class GameLogic {
     levelElement.textContent = 0;
     this.level = 0;
     this.timer = 0;
+    this.patternMemory = [];
+    this.userFeedback = [];
     this.timerDisplay.textContent = "0:00";
+    this.turn = "cpu";
+
   }
   clearSquareStyles() {
     const squares = document.querySelectorAll(".squares div");
@@ -75,6 +79,10 @@ class GameLogic {
       square.classList.remove("squares-hover");
       console.log("I Worked ")
     });
+  }
+  endGame(){
+    this.turn = null
+    this.restartGame()
   }
   async cpuTurn() {
     //if arraysMatch(patternMemory,userFeedback) === false, end game
@@ -125,7 +133,7 @@ class GameLogic {
 
       await new Promise((resolve) => {
         setTimeout(() => {
-          gameSquareElement.style.opacity = 0.3;
+          gameSquareElement.style.opacity = 0.2;
           //beep sound play here
           //add opacity to square that is lit up
           //

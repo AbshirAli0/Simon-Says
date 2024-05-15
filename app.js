@@ -16,10 +16,10 @@ class GameLogic {
         this.playerPrompt.textContent = "CPU's Turn";
         this.playerPrompt.style.fontStyle = "italic";
       } else if (turn === "player") {
-        this.playerPrompt.textContent = "Player's Turn";
+        this.playerPrompt.textContent = `${this.name}'s turn`;
         this.playerPrompt.style.fontStyle = "italic";
       } else if (turn !== "cpu" && turn !== "player") {
-        this.playerPrompt.textContent = "GAME OVER";
+        this.playerPrompt.textContent = "GAME OVER: click on BEGIN GAME to start again";
         this.playerPrompt.style.fontStyle = "normal";
       }
     };
@@ -32,7 +32,6 @@ class GameLogic {
     this.level++;
     const levelElement = document.getElementById("level");
     levelElement.textContent = this.level;
-    console.log("Level Has Been Updated");
   }
   startTimer() {
     this.timerDisplay = document.getElementById("timer");
@@ -88,14 +87,12 @@ class GameLogic {
     const squares = document.querySelectorAll(".squares div");
     squares.forEach((square) => {
       square.classList.add("squares-hover");
-      console.log("I Worked too");
     });
   }
   removeHoverEffect() {
     const squares = document.querySelectorAll(".squares div");
     squares.forEach((square) => {
       square.classList.remove("squares-hover");
-      console.log("I Worked ");
     });
   }
   async cpuTurn() {
@@ -122,15 +119,8 @@ class GameLogic {
     await this.cpuAddNewItems().then(() => {
       this.turn = "player";
       this.updatePlayerPrompt("player");
-      this.levelChange();
       this.clearSquareStyles();
       this.addHoverEffect();
-      console.log(
-        "CPU turn finished",
-        this.patternMemory,
-        this.userFeedback,
-        this.level
-      );
     });
   }
   async cpuAddNewItems() {
@@ -157,28 +147,13 @@ class GameLogic {
       this.userFeedback.push(color);
       this.playSound(`${color}-sound`);
       const currentMoveIndex = this.userFeedback.length - 1;
-      if (
-        this.userFeedback[currentMoveIndex] !==
-        this.patternMemory[currentMoveIndex]
-      ) {
+      if (this.userFeedback[currentMoveIndex] !==this.patternMemory[currentMoveIndex]) {
         this.endGame();
         return;
-      }
-      console.log(
-        "PLAYER clicked =>",
-        this.patternMemory,
-        this.userFeedback,
-        this.level
-      );
-
+      } 
       if (this.patternMemory.length === this.userFeedback.length) {
+        this.levelChange(); 
         this.turn = "cpu";
-        console.log(
-          "END OF PLAYER TURN",
-          this.patternMemory,
-          this.userFeedback,
-          this.level
-        );
         this.userFeedback = [];
         this.cpuTurn();
       }
